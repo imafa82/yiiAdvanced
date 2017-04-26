@@ -6,6 +6,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use app\models\ContactForm;
+use app\models\EntryForm;
 
 /**
  * Site controller
@@ -22,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'about', 'contact', 'say', 'entry', 'error'],
                         'allow' => true,
                     ],
                     [
@@ -61,6 +63,62 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Displays contact page.
+     *
+     * @return string
+     */
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+
+    public function actionSay($target = "World")
+    {
+      return $this->render ('say', ['target'=> $target] );
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+
+    public function actionEntry()
+    {
+      //Istanzio un nuovo model un oggetto di classe EntryForm derivato da model
+      $model = new EntryForm();
+
+      // se i dati sono stati postati... fai qualcosa
+
+        if($model->load(Yii::$app->request->post())
+            // il metodo ci consente di validare tutti i dati presenti nella form ovvero Yii::$app->request->post()
+            && $model->validate()
+          ){
+            //in questa pagina ci sarà il risultato dell'elaborazione dei dati della form
+              return $this->render('entry-confirm', ['model' => $model]);
+            }
+
+      //altrimenti carica la view della form
+        else {
+          //In questa pagina ci sarà la form iniziale
+          return $this->render('entry', ['model' => $model]);
+        }
     }
 
     /**
