@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\city;
 /**
  * This is the model class for table "country".
  *
@@ -44,5 +44,22 @@ class Country extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'population' => Yii::t('app', 'Population'),
         ];
+    }
+
+    public function getNazioniCount(){
+
+        $sql="Select count(code) as conteggio from country";
+        //esegui la query
+        $db = Yii::$app->db;
+        $n_nazioni = $db->createCommand($sql)->queryOne()['conteggio'];
+        return $n_nazioni;
+
+    }
+
+    public function getCittaCount(){
+
+        $n_citta = City::find()->count();
+        return $n_citta;
+
     }
 }

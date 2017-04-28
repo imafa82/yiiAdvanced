@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
+use app\models\Country;
 
 /**
  * Site controller
@@ -24,11 +25,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'about', 'contact', 'say', 'entry', 'error'],
+                        'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'about', 'contact', 'say', 'entry', 'dati'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -152,5 +153,18 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionDati(){
+
+      //interrogazione al DB:chiamo il metodo getNazioniCount
+      $nazioni = new Country();
+      $n_nazioni = $nazioni->getNazioniCount();
+      $n_citta = $nazioni->getCittaCount();
+
+      return $this->render('dati',
+                  ['n_nazioni' => $n_nazioni,
+                    'n_citta' => $n_citta,
+                ]);
     }
 }

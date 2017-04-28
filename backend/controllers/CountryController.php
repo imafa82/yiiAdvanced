@@ -8,6 +8,8 @@ use app\models\CountrySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\ForbiddenHttpException;
 
 /**
  * CountryController implements the CRUD actions for Country model.
@@ -17,17 +19,32 @@ class CountryController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+     public function behaviors()
+     {
+         return [
+
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+
+
+                     [
+                         'actions' => ['index', 'create', 'update', 'delete','view',
+                         'report'],
+                         'allow' => true,
+                         'roles' => ['@'],
+                     ],
+                 ],
+             ],
+
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'delete' => ['post'],
+                 ],
+             ],
+         ];
+     }
 
     /**
      * Lists all Country models.
@@ -63,6 +80,8 @@ class CountryController extends Controller
      */
     public function actionCreate()
     {
+      // se l'utente può fare l'azione actionCreate, falla
+      if(Yii::$app->user->can('create-country')){
         $model = new Country();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -72,6 +91,10 @@ class CountryController extends Controller
                 'model' => $model,
             ]);
         }
+      } else {
+        throw new ForbiddenHttpException;
+      }
+
     }
 
     /**
@@ -82,6 +105,7 @@ class CountryController extends Controller
      */
     public function actionUpdate($id)
     {
+      if(Yii::$app->user->can('update-country')){
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -91,6 +115,9 @@ class CountryController extends Controller
                 'model' => $model,
             ]);
         }
+      } else {
+        throw new ForbiddenHttpException;
+      }
     }
 
     /**
@@ -101,9 +128,13 @@ class CountryController extends Controller
      */
     public function actionDelete($id)
     {
+      if(Yii::$app->user->can('delete-country')){
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+      } else {
+        throw new ForbiddenHttpException;
+      }
     }
 
     /**

@@ -9,6 +9,8 @@ use app\models\Country;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use yii\web\ForbiddenHttpException;
 
 /**
  * CityController implements the CRUD actions for City model.
@@ -18,17 +20,32 @@ class CityController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+     public function behaviors()
+     {
+         return [
+
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+
+
+                     [
+                         'actions' => ['index', 'create', 'update', 'delete','view',
+                         'report'],
+                         'allow' => true,
+                         'roles' => ['@'],
+                     ],
+                 ],
+             ],
+
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'delete' => ['post'],
+                 ],
+             ],
+         ];
+     }
 
     /**
      * Lists all City models.
@@ -74,6 +91,7 @@ class CityController extends Controller
      */
      public function actionCreate($ccode = null)
      {
+       if(Yii::$app->user->can('create-country')){
          $model = new City();
 
          if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -92,6 +110,9 @@ class CityController extends Controller
            }
 
          }
+       } else {
+         throw new ForbiddenHttpException;
+       }
      }
 
     /**
@@ -102,6 +123,7 @@ class CityController extends Controller
      */
     public function actionUpdate($id)
     {
+      if(Yii::$app->user->can('update-country')){
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -111,6 +133,9 @@ class CityController extends Controller
                 'model' => $model,
             ]);
         }
+      } else {
+        throw new ForbiddenHttpException;
+      }
     }
 
     /**
@@ -121,9 +146,13 @@ class CityController extends Controller
      */
     public function actionDelete($id)
     {
+      if(Yii::$app->user->can('delete-country')){
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+      } else {
+        throw new ForbiddenHttpException;
+      }
     }
 
     /**
