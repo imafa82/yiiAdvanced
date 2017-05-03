@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Country;
 use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
@@ -12,12 +14,18 @@ use dosamigos\datepicker\DatePicker;
 <div class="city-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?PHP
+      if(isset ($ccode) && $ccode != null){
+        echo $form->field($model, 'ccode')->
+        dropDownList(ArrayHelper::map(Country::find()->
+        orderBy('name')->all(), 'code', 'name'));
 
-    <?php if(isset ($ccode) && $ccode != null){
-      echo $form->field($model, 'ccode')->textInput(['maxlength' => true, 'value' => $ccode, 'readonly' => true]);
-    } else {
-      echo $form->field($model, 'ccode')->textInput(['maxlength' => true]);
-    } ?>
+      }else{
+        echo $form->field($model, 'ccode')->textInput(['maxlength' => true]);
+      }
+    ?>
+
+
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
