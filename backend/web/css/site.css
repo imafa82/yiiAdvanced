@@ -110,6 +110,12 @@ a.desc:after {
     }
 }
 
+@media(max-width:480px){
+  div.jumbotron img{
+    width: 50%;
+  }
+}
+
 .nav > li > form > button.logout:focus,
 .nav > li > form > button.logout:hover {
     text-decoration: none;

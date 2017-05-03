@@ -2,9 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+//use app\models\Country;
 /* @var $this yii\web\View */
 /* @var $model app\models\City */
+//$country = new Country();
+
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cities'), 'url' => ['index']];
@@ -28,10 +30,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_city',
-            'ccode',
+            //'id_city',
+            //'ccode',
+            /*[
+              'attribute' => 'ccode',
+              'label' =>Yii::t('app', 'Nazione d\'origine'),
+              'value' => $country->getCountryFromCity($model->ccode),
+            ],*/
+            [
+              'attribute' => 'ccode',
+              'label' =>Yii::t('app', 'Nazione d\'origine'),
+              'value' => $model->getNazione()->one()['name'],
+              ],
             'name',
             'population',
+            'birthdate',
         ],
     ]) ?>
 

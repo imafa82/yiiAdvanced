@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\City */
@@ -21,6 +22,15 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'population')->textInput() ?>
+
+    <?= $form->field($model, 'birthdate')->widget(
+       DatePicker::className(), [
+            'inline' => false,
+             'clientOptions' => [
+                 'autoclose' => true,
+                 'format' => 'yyyy-m-d'
+             ]
+    ]);?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

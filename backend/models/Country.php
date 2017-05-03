@@ -62,4 +62,13 @@ class Country extends \yii\db\ActiveRecord
         return $n_citta;
 
     }
+
+    public function getCountryFromCity($ccode){
+
+      $sql="Select name from country where code='$ccode'";
+      $db = Yii::$app->db;
+      $nazione = $db->createCommand($sql)->queryOne()['name'];
+      return $nazione;
+
+  }
 }

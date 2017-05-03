@@ -19,7 +19,7 @@ class CitySearch extends City
     {
         return [
             [['id_city', 'population'], 'integer'],
-            [['ccode', 'name'], 'safe'],
+            [['ccode', 'name', 'birthdate'], 'safe'],
         ];
     }
 
@@ -68,6 +68,7 @@ class CitySearch extends City
         ]);
 
         $query->andFilterWhere(['like', 'ccode', $this->ccode])
+            ->andFilterWhere(['like', 'birthdate', $this->birthdate])
             ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;

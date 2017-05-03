@@ -7,7 +7,9 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>Yii2 CMS</h1>
+
+        <img src="img/prato.jpg" />
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 

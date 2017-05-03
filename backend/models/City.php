@@ -11,6 +11,7 @@ use Yii;
  * @property string $ccode
  * @property string $name
  * @property integer $population
+ * @property string $birthdate
  */
 class City extends \yii\db\ActiveRecord
 {
@@ -32,6 +33,7 @@ class City extends \yii\db\ActiveRecord
             [['population'], 'integer'],
             [['ccode'], 'string', 'max' => 3],
             [['name'], 'string', 'max' => 50],
+            [['birthdate'], 'string'],
         ];
     }
 
@@ -45,6 +47,13 @@ class City extends \yii\db\ActiveRecord
             'ccode' => Yii::t('app', 'Ccode'),
             'name' => Yii::t('app', 'Name'),
             'population' => Yii::t('app', 'Population'),
+            'birthdate' => Yii::t('app', 'Birth Date'),
         ];
     }
+    public function getNazione()
+      {
+          return $this->hasOne(Country::className(),
+          ['code' => 'ccode']);
+      }
+
 }
