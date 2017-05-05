@@ -9,6 +9,7 @@ use common\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
 use app\models\Country;
+use app\models\City;
 
 /**
  * Site controller
@@ -160,12 +161,15 @@ class SiteController extends Controller
 
       //interrogazione al DB:chiamo il metodo getNazioniCount
       $nazioni = new Country();
+      $citta= new City();
       $n_nazioni = $nazioni->getNazioniCount();
       $n_citta = $nazioni->getCittaCount();
-
+      $count = $citta->countCityForCountry();
+      //$count è la matrice di array associativi
       return $this->render('dati',
                   ['n_nazioni' => $n_nazioni,
                     'n_citta' => $n_citta,
+                    'count' => $count,
                 ]);
     }
 }

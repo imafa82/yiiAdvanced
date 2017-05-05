@@ -56,4 +56,14 @@ class City extends \yii\db\ActiveRecord
           ['code' => 'ccode']);
       }
 
+    public function countCityforCountry(){
+
+          $sql="Select * from numerocittapernazione";
+          $db = Yii::$app->db;
+          $conteggio = $db->createCommand($sql)->queryAll();
+          //matrice di array assocciativi
+          return $conteggio;
+
+      }
+
 }
