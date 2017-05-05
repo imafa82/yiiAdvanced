@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "city".
@@ -12,9 +13,12 @@ use Yii;
  * @property string $name
  * @property integer $population
  * @property string $birthdate
+ * @property string $allegato
  */
 class City extends \yii\db\ActiveRecord
 {
+  public $file; //proprietà per gestire l'upload del file
+
     /**
      * @inheritdoc
      */
@@ -29,11 +33,13 @@ class City extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ccode', 'name', 'population'], 'required'],
+            [['ccode', 'name', 'population', 'birthdate', 'allegato'], 'required'],
             [['population'], 'integer'],
             [['ccode'], 'string', 'max' => 3],
             [['name'], 'string', 'max' => 50],
             [['birthdate'], 'string'],
+            [['allegato'], 'string', 'max' => 100],
+            [['file'], 'file'],
         ];
     }
 
@@ -48,6 +54,7 @@ class City extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'population' => Yii::t('app', 'Population'),
             'birthdate' => Yii::t('app', 'Birth Date'),
+            'allegato' => Yii::t('app', 'Allegato'),
         ];
     }
     public function getNazione()

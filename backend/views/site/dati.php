@@ -16,31 +16,40 @@ $this->params['breadcrumbs'][] = $this->title;
 <button class="btn btn-primary" type="button">
   N° Città <span class="badge"> <?= $n_citta ?></span>
 </button>
-<table class="table table-striped">
-  <tr>
-    <th>
-      N°
-    </th>
-    <th>
-      Nazione
-    </th>
-  </tr>
-<?php
-  foreach ($count as $key => $value) {?>
-
-
-      <tr>
-        <td>
-          <?= $value['conteggio'] ?>
-        </td>
-        <td>
-          <?= $value['name'] ?>
-        </td>
-      </tr>
-
-    <?php
-  }
-
-
- ?>
+<table class="table table-striped ">
+<thead>
+  <tr class="success">
+      <th>
+        N°
+      </th>
+      <th>
+        Nazione
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+      <?php
+      $totale = 0;
+        foreach ($count as $value) {?>
+            <tr>
+              <td>
+                <?= $value['conteggio'] ?>
+              </td>
+              <td>
+                <?= $value['name'] ?>
+              </td>
+            </tr>
+          <?php
+          $totale++;
+        }
+       ?>
+</tbody>
+<tfoot>
+   <tr>
+     <td>
+       <?= $totale ?>
+     </td>
+     <td>Totale</td>
+   </tr>
+ </tfoot>
 </table>

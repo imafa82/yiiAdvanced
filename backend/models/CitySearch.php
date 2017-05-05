@@ -19,7 +19,7 @@ class CitySearch extends City
     {
         return [
             [['id_city', 'population'], 'integer'],
-            [['ccode', 'name', 'birthdate'], 'safe'],
+            [['ccode', 'name', 'birthdate', 'allegato'], 'safe'],
         ];
     }
 

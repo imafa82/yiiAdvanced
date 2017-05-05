@@ -25,6 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <?php if($model && $model->allegato){
+          ?>
+          <img  style="width:150px;" src="<?= $model->allegato ?>" alt="" title="" />
+          <?php
+        } ?>
     </p>
 
     <?= DetailView::widget([
@@ -45,7 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'population',
             'birthdate',
+            'allegato'
         ],
     ]) ?>
-
+    <?= Html::a(Yii::t('app', 'Scarica Allegato'),
+       ['update', 'id' => $model->id_city], ['class' => 'btn btn-primary']) ?>
 </div>

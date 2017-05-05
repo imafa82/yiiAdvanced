@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
+use yii\web\UploadedFile;
 
 /**
  * CityController implements the CRUD actions for City model.
@@ -94,7 +95,18 @@ class CityController extends Controller
        if(Yii::$app->user->can('create-country')){
          $model = new City();
 
-         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+         if ($model->load(Yii::$app->request->post())) {
+           //Inizio inserimento file
+            $model->file = UploadedFile::getInstance($model,'file');
+            $fileName=$model->name;
+            $filePath="img/";
+            $savePath= $filePath . $fileName . "." . $model->file->extension;
+            $model->file->saveAs($savePath);
+            //Fine inserimento file
+            //registriamo il nome del file nel DB nel campo allegato
+            $model->allegato=$savePath;
+
+              $model->save();
              return $this->redirect(['view', 'id' => $model->id_city]);
          } else {//visualizzo la view create.php
            if(isset($ccode) && $ccode != null){
@@ -126,7 +138,20 @@ class CityController extends Controller
       if(Yii::$app->user->can('update-country')){
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+          if(strlen(
+           $_FILES['City']['tmp_name']['file'])>0){
+
+             $model->file = UploadedFile::getInstance($model,'file');
+             $fileName=$model->name;
+             $filePath="img/";
+             $savePath= $filePath . $fileName . "." . $model->file->extension;
+             $model->file->saveAs($savePath);
+
+             //registriamo il nome del file nel DB nel campo allegato
+             $model->allegato=$savePath;
+           }
+           $model->save();
             return $this->redirect(['view', 'id' => $model->id_city]);
         } else {
             return $this->render('update', [

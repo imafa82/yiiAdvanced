@@ -13,7 +13,8 @@ use dosamigos\datepicker\DatePicker;
 
 <div class="city-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(
+      ['options' => ['enctype' => 'multipart/form-data']]); ?>
     <?PHP
       if(isset ($ccode) && $ccode != null){
         echo $form->field($model, 'ccode')->
@@ -39,11 +40,15 @@ use dosamigos\datepicker\DatePicker;
                  'format' => 'yyyy-m-d'
              ]
     ]);?>
-
+    <?= $form->field($model, 'file')->fileInput() ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
+    <?php if($model && $model->allegato){
+      ?>
+      <img  style="width:150px;" src="<?= $model->allegato ?>" alt="" title="" />
+      <?php
+    } ?>
     <?php ActiveForm::end(); ?>
 
 </div>
