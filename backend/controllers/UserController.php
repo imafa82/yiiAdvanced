@@ -7,6 +7,7 @@ use app\models\User;
 use app\models\AuthAssignment;
 use app\models\UserSearch;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -18,17 +19,31 @@ class UserController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+     public function behaviors()
+     {
+         return [
+
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+
+
+                     [
+                         'actions' => ['index', 'create', 'update', 'delete'],
+                         'allow' => true,
+                         'roles' => ['@'],
+                     ],
+                 ],
+             ],
+
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'delete' => ['post'],
+                 ],
+             ],
+         ];
+     }
 
     /**
      * Lists all User models.
@@ -89,7 +104,24 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            $sql="DELETE from auth_assignment WHERE user_id= $id";
+            Yii::$app->db->createCommand($sql); //Eseguiamo il delete, cancelliamo tutti i permessi dell'utente
+            //Scriviamo dentro auth_assignment i nuovi permessi
+            $newPermissions=$_POST['SignupForm']['permissions'];
+                     //print_r($newPermissions);
+                     //print_r($_POST['SignupForm']['permissions']);
+
+                     //die();
+
+            foreach($newPermissions as $permission){
+
+            $sql="Insert into auth_assignment(item_name, user_id) Values('" . $permission . "'," . $id . ")"  ;
+                   echo $sql . "<br>";
+                   Yii::$app->db->createCommand($sql)->execute();
+
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
