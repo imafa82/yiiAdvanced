@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\Menu;
 use yii\widgets\Breadcrumbs;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 
 /**
  * @var $this \yii\base\View
@@ -28,10 +26,10 @@ use yii\bootstrap\NavBar;
     <title><?php echo Html::encode(\Yii::$app->name); ?> - A ThemeFactory.net Theme</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $this->theme->baseUrl ?>/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/business-casual.css" rel="stylesheet">
+    <link href="<?php echo $this->theme->baseUrl ?>/css/business-casual.css" rel="stylesheet">
 
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -52,7 +50,7 @@ use yii\bootstrap\NavBar;
 .brand, .address-bar {
     text-shadow: 0 0 20px white;
 }
-
+    
     </style>
 
 </head>
@@ -79,37 +77,18 @@ use yii\bootstrap\NavBar;
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <?php
-                NavBar::begin([
-                    'brandLabel' => 'My Company',
-                    'brandUrl' => Yii::$app->homeUrl,
-                    'options' => [
-                        'class' => 'nav navbar-nav',
-                        'id' => 'nav',
-                    ],
-                ]);
-                $menuItems = [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
-                ];
-                if (Yii::$app->user->isGuest) {
-                    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-                } else {
-                    $menuItems[] = '<li>'
-                        . Html::beginForm(['/site/logout'], 'post')
-                        . Html::submitButton(
-                            'Logout (' . Yii::$app->user->identity->username . ')',
-                            ['class' => 'btn btn-link logout']
-                        )
-                        . Html::endForm()
-                        . '</li>';
-                }
-                echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav navbar-right'],
-                    'items' => $menuItems,
-                ]);
-                NavBar::end();
+      				echo Menu::widget([
+      				  'options' => [
+      				    "id"  => "nav",
+      				    "class" => "nav navbar-nav"
+      				  ],
+    				    'items' => [
+    				        ['label' => 'Home', 'url' => ['site/index']],
+    				        ['label' => 'About', 'url' => ['site/about']],
+    				        ['label' => 'Contact', 'url' => ['site/contact']],
+    				        ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
+    				    ],
+      				]);
 	  		    ?>
             </div>
             <!-- /.navbar-collapse -->
@@ -204,10 +183,10 @@ use yii\bootstrap\NavBar;
     </footer>
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="<?php echo $this->theme->baseUrl ?>/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<?php echo $this->theme->baseUrl ?>/js/bootstrap.min.js"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>

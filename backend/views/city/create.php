@@ -13,10 +13,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="city-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php if(isset($ccode) && $ccode != null){
+      echo $this->render('_form', [
+          'model' => $model,
+          'ccode' => $ccode
+      ]);
+    } else {
+      echo $this->render('_form', [
+          'model' => $model
+      ]);
+    } ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-        'ccode' => $ccode
-    ]) ?>
 
 </div>

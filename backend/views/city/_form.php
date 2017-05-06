@@ -17,12 +17,15 @@ use dosamigos\datepicker\DatePicker;
       ['options' => ['enctype' => 'multipart/form-data']]); ?>
     <?PHP
       if(isset ($ccode) && $ccode != null){
+        $model->ccode = $ccode;
         echo $form->field($model, 'ccode')->
         dropDownList(ArrayHelper::map(Country::find()->
         orderBy('name')->all(), 'code', 'name'));
 
       }else{
-        echo $form->field($model, 'ccode')->textInput(['maxlength' => true]);
+        echo $form->field($model, 'ccode')->
+        dropDownList(ArrayHelper::map(Country::find()->
+        orderBy('name')->all(), 'code', 'name'));
       }
     ?>
 

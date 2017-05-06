@@ -7,13 +7,13 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Yii2 CMS</h1>
+        <h1>Massy Application</h1>
 
-        <img src="img/prato.jpg" />
+        <img src="img/castel.jpg" />
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <p class="lead">Benvenuto sull'applicazione di Massy</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success" href="http://www.massimilianosalerno.it">Il mio Sito Personale</a></p>
     </div>
 
     <div class="body-content">

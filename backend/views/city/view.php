@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?php if($model && $model->allegato){
+        <?php if($model && $model->allegato && file_exists($model->allegato)){
           ?>
           <img  style="width:150px;" src="<?= $model->allegato ?>" alt="" title="" />
           <?php
@@ -54,6 +54,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'allegato'
         ],
     ]) ?>
-    <?= Html::a(Yii::t('app', 'Scarica Allegato'),
-       ['update', 'id' => $model->id_city], ['class' => 'btn btn-primary']) ?>
+    <?php if($model && $model->allegato && file_exists($model->allegato)){
+      echo Html::a(Yii::t('app', 'Scarica Allegato'),
+    ['scarica', 'id' => $model->id_city, 'allegato' => $model->allegato],
+    ['class' => 'btn btn-primary']);
+      ?>
+
+
+    <a download class="btn btn-default"
+     href="<?PHP echo $model->allegato; ?>">
+     <i class="glyphicon glyphicon-eye-open"></i>
+     <?=Yii::t('app', 'Scarica Allegato')?></a>
+     <?php } ?>
 </div>

@@ -32,7 +32,7 @@ class CityController extends Controller
 
                      [
                          'actions' => ['index', 'create', 'update', 'delete','view',
-                         'report'],
+                         'report', 'scarica'],
                          'allow' => true,
                          'roles' => ['@'],
                      ],
@@ -179,6 +179,24 @@ class CityController extends Controller
         throw new ForbiddenHttpException;
       }
     }
+
+    public function actionScarica($id, $allegato){
+
+       $filenameAllegato= $allegato;
+
+       //echo $filenameAllegato; die();
+
+           if(file_exists($filenameAllegato)){
+           return $this->redirect($allegato);
+           }
+
+            else{
+            return $this->render('scarica', [
+                            'model' => $this->findModel($id),
+                            'allegato' =>$allegato,
+                        ]);
+            }
+        }
 
     /**
      * Finds the City model based on its primary key value.
